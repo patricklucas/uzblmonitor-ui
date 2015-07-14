@@ -51,10 +51,11 @@ def get_monitor_configs():
         _, host, param = key_parts  # eg. hosts/sfotv11-17.../url
         data[host][param] = o['Value']
 
-    host_configs = [
+    # Sort by alias then host
+    host_configs = sorted([
         MonitorConfig(host, params.get('alias'), params.get('url'))
         for host, params in data.iteritems()
-    ]
+    ], key=lambda h: h.alias if h.alias else h.host)
 
     return host_configs
 
