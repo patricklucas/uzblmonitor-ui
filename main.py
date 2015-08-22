@@ -53,7 +53,12 @@ def get_monitor_configs():
 
     # Sort by alias then host
     host_configs = sorted([
-        MonitorConfig(host, params.get('alias').decode('utf-8'), params.get('url').decode('utf-8'), params.get('refresh_rate').decode('utf-8') if params.get('refresh_rate') is not None else str(None))
+        MonitorConfig(
+            host,
+            params['alias'].decode('utf-8') if 'alias' in params else None,
+            params['url'].decode('utf-8') if 'url' in params else None,
+            params.get('refresh_rate', 'infinity').decode('utf-8'),
+        )
         for host, params in list(data.items())
     ], key=lambda h: h.alias if h.alias else h.host)
 
